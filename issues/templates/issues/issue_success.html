@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Issue Details</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color:#D7BDCA;
+      margin: 0;
+    }
+    .card {
+      position: relative;
+      background-color:white ;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      max-width: 400px;
+      width: 100%;
+    }
+    .card p {
+      margin: 10px 0;
+      font-size: 16px;
+      color: #333;
+    }
+    .card button {
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+      margin-right: 10px;
+      transition: background-color 0.3s;
+    }
+    .card .edit-btn {
+      background-color: #4CAF50;
+    }
+    .card .edit-btn:hover {
+      background-color: #45a049;
+    }
+    .card .delete-btn {
+      background-color: #f44336;
+    }
+    .card .delete-btn:hover {
+      background-color: #d32f2f;
+    }
+    .card .logo {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 50px; /* Adjust the size as needed */
+      height: auto;
+    }
+    .status {
+      color: black;
+      font-weight:100%;
+      padding: 5px 10px;
+      border-radius: 5px;
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+    .status.pending-implementation {
+      background-color: #d3d3d3; /* Light Grey */
+    }
+    .status.in-progress {
+      background-color: #000080; /* Navy Blue */
+    }
+    .status.ready-for-uat,
+    .status.ready-to-deploy {
+      background-color: #d3d3d3; /* Light Grey */
+    }
+    .status.done {
+      background-color: #4CAF50; /* Green */
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <img src="{% static 'logo.jpg' %}" alt="Logo" class="logo">
+    <p><strong>Title:</strong> {{ issue.title }}</p>
+    <p><strong>Description:</strong> {{ issue.description }}</p>
+    <p><strong>Assignee:</strong> {{ issue.assignee }}</p>
+    <p><strong>Status:</strong> <span class="status {% if issue.status == 'Pending Implementation' %}pending-implementation{% elif issue.status == 'In Progress' %}in-progress{% elif issue.status == 'Ready for UAT' %}ready-for-uat{% elif issue.status == 'Ready to Deploy' %}ready-to-deploy{% elif issue.status == 'Done' %}done{% endif %}">{{ issue.status }}</span></p>
+    <p><strong>Created Date:</strong> {{ issue.created_at }}</p>
+    <p><strong>Last Updated:</strong> {{ issue.updated_at }}</p>
+    <p><strong>Date Resolved:</strong> {{ issue.closed_at }}</p>
+    <a href="{% url 'issue_edit' issue.id %}"><button class="edit-btn">Edit Issue</button></a>
+    <a href="{% url 'issue_delete' issue.id %}"><button class="delete-btn">Delete Issue</button></a>
+  </div>
+</body>
+</html>

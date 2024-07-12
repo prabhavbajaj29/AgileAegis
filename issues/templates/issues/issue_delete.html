@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delete Issue</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #D7BDCA;
+      margin: 0;
+    }
+    .card {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+    .card p {
+      margin: 20px 0;
+      font-size: 18px;
+      color: #333;
+    }
+    .card button, .card a {
+      display: inline-block;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      text-decoration: none;
+      margin: 10px;
+    }
+    .card button {
+      background-color: #f44336;
+    }
+    .card button:hover {
+      background-color: #d32f2f;
+    }
+    .card .back-btn {
+      background-color: #4CAF50;
+    }
+    .card .back-btn:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <p>Are you sure you want to delete the issue "<strong>{{ issue.title }}</strong>"?</p>
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit">Yes, delete</button>
+      <a href="{% url 'issue_success' issue.id %}" class="back-btn">No, go back</a>
+    </form>
+  </div>
+</body>
+</html>

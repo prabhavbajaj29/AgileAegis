@@ -1,0 +1,124 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>List of Issues</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background-color: #D7BDCA;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      position: relative;
+    }
+    .card p {
+      margin: 10px 0;
+      font-size: 16px;
+      color: #333;
+    }
+    .card .status {
+      padding: 5px;
+      border-radius: 5px;
+      color: indianred;
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+    /* Define styles for different statuses */
+    .card .status.PendingImplementation { background-color: lightgrey; }
+    .card .status.InProgress { background-color: navy; }
+    .card .status.ReadyForUAT,
+    .card .status.ReadyToDeploy { background-color: lightgrey; }
+    .card .status.Done { background-color: green; }
+    .card button, .card a {
+      display: inline-block;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      text-decoration: none;
+      margin: 5px 0;
+    }
+    .card button {
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+      margin-right: 10px;
+      display: inline-block;
+      margin-right:5px;
+      transition: background-color 0.3s;
+    }
+    .card .edit-btn {
+      background-color: #4CAF50;
+    }
+    .card .edit-btn:hover {
+      background-color: #45a049;
+    }
+    .card .delete-btn {
+      background-color: #f44336;
+    }
+    .card .delete-btn:hover {
+      background-color: #d32f2f;
+    }
+    .card .logo {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      max-width: 50px; /* Adjust as needed */
+      max-height: 50px; /* Adjust as needed */
+    }
+    .heading-l {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class='heading-l'>
+    <h1>List of Issues</h1>
+  </div>
+  <div class="container">
+    {% for issue in issues %}
+    <div class="card">
+      <img src="{% static 'logo.jpg' %}" alt="Logo" class="logo">
+      <p><strong>Title:</strong> {{ issue.title }}</p>
+      <p><strong>Description:</strong> {{ issue.description }}</p>
+      <p><strong>Assignee:</strong> {{ issue.assignee }}</p>
+      {% if issue.status == 'Pending Implementation' %}
+        <p class="status PendingImplementation">{{ issue.status }}</p>
+      {% elif issue.status == 'In Progress' %}
+        <p class="status InProgress">{{ issue.status }}</p>
+      {% elif issue.status == 'Ready for UAT' or issue.status == 'Ready to Deploy' %}
+        <p class="status ReadyForUAT">{{ issue.status }}</p>
+      {% elif issue.status == 'Done' %}
+        <p class="status Done">{{ issue.status }}</p>
+      {% endif %}
+      <p><strong>Created Date:</strong> {{ issue.created_at }}</p>
+      <p><strong>Last Updated:</strong> {{ issue.updated_at }}</p>
+      <p><strong>Date Resolved:</strong> {{ issue.closed_at }}</p>
+      <a href="{% url 'issue_edit' issue.id %}"><button class="edit-btn">Edit Issue</button></a>
+      {% if user.is_superuser %}
+        <a href="{% url 'issue_edit' issue.id %}"><button class="edit-btn">Edit Issue</button></a>
+        <a href="{% url 'issue_delete' issue.id %}"><button class="delete-btn">Delete Issue</button></a>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+</body>
+</html>

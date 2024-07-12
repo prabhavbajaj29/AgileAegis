@@ -1,0 +1,220 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanban Board</title>
+    <link rel="stylesheet" href="{% static 'css/dragula.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 90%;
+            margin: 20px auto;
+            padding: 20px;
+            background: #D7BDCA;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        .kanban-board {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .kanban-column {
+            flex: 1;
+            background: #f0f0f0;
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: background 0.3s;
+        }
+
+        .kanban-column h3 {
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .kanban-column:hover {
+            background: #e0e0e0;
+        }
+
+        .kanban-card {
+            background-color: lightpink;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 10px;
+            cursor: grab;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: box-shadow 0.3s, transform 0.3s;
+        }
+
+        .kanban-card:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+        }
+
+        .kanban-card p {
+            margin: 0 0 5px;
+        }
+
+        .hidden-form {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Kanban Board</h2>
+        <div class="kanban-board">
+            <div class="kanban-column" id="column-pending" data-status="Pending Implementation">
+                <h3>Pending Implementation</h3>
+                {% for issue in issues %}
+                    {% if issue.status == 'Pending Implementation' %}
+                        <div class="kanban-card" data-issue-id="{{ issue.id }}" draggable="true">
+                            <p><strong>{{ issue.title }}</strong></p>
+                            <p>{{ issue.description }}</p>
+                            <form method="post" action="{% url 'update_issue_status' issue.id %}" class="hidden-form">
+                                {% csrf_token %}
+                                <input type="hidden" name="new_status" value="Pending Implementation">
+                            </form>
+                            <!-- Add more issue details as needed -->
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="kanban-column" id="column-in-progress" data-status="In Progress">
+                <h3>In Progress</h3>
+                {% for issue in issues %}
+                    {% if issue.status == 'In Progress' %}
+                        <div class="kanban-card" data-issue-id="{{ issue.id }}" draggable="true">
+                            <p><strong>{{ issue.title }}</strong></p>
+                            <p>{{ issue.description }}</p>
+                            <form method="post" action="{% url 'update_issue_status' issue.id %}" class="hidden-form">
+                                {% csrf_token %}
+                                <input type="hidden" name="new_status" value="In Progress">
+                            </form>
+                            <!-- Add more issue details as needed -->
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="kanban-column" id="column-uat" data-status="Ready for UAT">
+                <h3>Ready for UAT</h3>
+                {% for issue in issues %}
+                    {% if issue.status == 'Ready for UAT' %}
+                        <div class="kanban-card" data-issue-id="{{ issue.id }}" draggable="true">
+                            <p><strong>{{ issue.title }}</strong></p>
+                            <p>{{ issue.description }}</p>
+                            <form method="post" action="{% url 'update_issue_status' issue.id %}" class="hidden-form">
+                                {% csrf_token %}
+                                <input type="hidden" name="new_status" value="Ready for UAT">
+                            </form>
+                            <!-- Add more issue details as needed -->
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="kanban-column" id="column-deploy" data-status="Ready to Deploy">
+                <h3>Ready to Deploy</h3>
+                {% for issue in issues %}
+                    {% if issue.status == 'Ready to Deploy' %}
+                        <div class="kanban-card" data-issue-id="{{ issue.id }}" draggable="true">
+                            <p><strong>{{ issue.title }}</strong></p>
+                            <p>{{ issue.description }}</p>
+                            <form method="post" action="{% url 'update_issue_status' issue.id %}" class="hidden-form">
+                                {% csrf_token %}
+                                <input type="hidden" name="new_status" value="Ready to Deploy">
+                            </form>
+                            <!-- Add more issue details as needed -->
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="kanban-column" id="column-done" data-status="Done">
+                <h3>Done</h3>
+                {% for issue in issues %}
+                    {% if issue.status == 'Done' %}
+                        <div class="kanban-card" data-issue-id="{{ issue.id }}" draggable="true">
+                            <p><strong>{{ issue.title }}</strong></p>
+                            <p>{{ issue.description }}</p>
+                            <form method="post" action="{% url 'update_issue_status' issue.id %}" class="hidden-form">
+                                {% csrf_token %}
+                                <input type="hidden" name="new_status" value="Done">
+                            </form>
+                            <!-- Add more issue details as needed -->
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification container -->
+    <div id="notification-container" class="notification-container"></div>
+
+    <script src="{% static 'js/dragula.min.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var drake = dragula({
+                isContainer: function (el) {
+                    return el.classList.contains('kanban-column');
+                },
+                moves: function (el, container, handle) {
+                    return handle.classList.contains('kanban-card');
+                },
+                accepts: function (el, target, source, sibling) {
+                    return target.classList.contains('kanban-column');
+                }
+            });
+
+            drake.on('drop', function (el, target, source, sibling) {
+                var issueId = el.getAttribute('data-issue-id');
+                var newStatus = target.getAttribute('data-status');
+
+                var form = el.querySelector('form');
+                form.querySelector('input[name="new_status"]').value = newStatus;
+                form.submit();
+            });
+        });
+
+        // Function to display notification
+        function showNotification(message) {
+            var notificationContainer = document.getElementById('notification-container');
+            var notification = document.createElement('div');
+            notification.classList.add('notification');
+            notification.textContent = message;
+            notificationContainer.appendChild(notification);
+
+            // Automatically remove notification after 3 seconds
+            setTimeout(function () {
+                notification.remove();
+            }, 3000); // Adjust timing as needed
+        }
+
+        // Usage example:
+        showNotification('Status updated successfully');
+    </script>
+</body>
+</html>

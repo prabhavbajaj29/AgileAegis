@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Form</title>
+  <style>
+    /* Global Styles */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #D7BDCA;
+    }
+
+    /* Login Container */
+    .login-container {
+      background-color:white;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 40px;
+      text-align: center;
+      width: 320px;
+    }
+
+    /* Form Styles */
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .form-control {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 8px;
+      display: block;
+      text-align: left;
+      color: #666;
+    }
+
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    input[type="text"]:focus, input[type="password"]:focus {
+      outline: none;
+      border-color: #8e44ad;
+      box-shadow: 0 0 8px rgba(142, 68, 173, 0.4);
+    }
+
+    input[type="submit"] {
+      background-color: #8e44ad;
+      color: #fff;
+      border: none;
+      padding: 12px 24px;
+      font-size: 18px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+      box-shadow: 0 4px 8px rgba(142, 68, 173, 0.2);
+    }
+
+    input[type="submit"]:hover {
+      background-color: #6c3483;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(142, 68, 173, 0.3);
+    }
+
+    /* Additional Styling (Optional) */
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .errorlist {
+      color: #f00;
+      margin-top: 10px;
+      text-align: left;
+    }
+    .signup-link {
+      margin-top: 20px;
+      color: #8e44ad;
+    }
+
+    .signup-link a {
+      color: #8e44ad;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    .signup-link a:hover {
+      color: #6c3483;
+
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Login</h2>
+    <form method="post">
+      {% csrf_token %}
+      {% if form.non_field_errors %}
+        <div class="errorlist">
+          {% for error in form.non_field_errors %}
+            <p>{{ error }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+      <div class="form-control">
+        <label for="id_username">Username:</label>
+        {{ form.username }}
+      </div>
+      <div class="form-control">
+        <label for="id_password">Password:</label>
+        {{ form.password }}
+      </div>
+      <input type="submit" value="Login">
+    </form>
+    <div class="signup-link">
+      Not a user? <a href="{% url 'signup' %}">Signup</a>
+    </div>
+  </div>
+</body>
+</html>

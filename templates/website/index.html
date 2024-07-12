@@ -1,0 +1,134 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>AgileAegis</title>
+    <link rel="stylesheet" type="text/css" target="_blank" href="{% static 'style.css' %}" />
+  </head>
+  <body>
+    <nav>
+      <div class="logo">
+        <img src="{% static 'logo.jpg' %}" alt="logo" />
+        <h1><a href="{% url 'home' %}">AgileAegis</a></h1>
+      </div>
+      <ul>
+        {% if user.is_authenticated %}
+          <li>
+            <a href="{% url 'logout' %}">Logout</a>
+          </li>
+          <li>
+            <a href="{% url 'profile' %}">Your Profile</a>
+          </li>
+          <li>
+            <a href="{% url 'pricing' %}">Pricing</a>
+          </li>
+          
+        {% else %}
+          <li>
+            <a href="{% url 'login' %}">Login</a>
+          </li>
+          <li>
+            <a href="{% url 'signup' %}">Signup</a>
+          </li>
+        <li>
+          <a href='{% url 'pricing' %}'>Pricing</a>
+        </li>
+        {% endif %}
+      </ul>
+      <div class="hamburger">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+      </nav>
+      <div class="menubar">
+      <ul>
+        <li>
+          <a href="#">Home</a>
+        </li>
+        <li>
+          <a href="#">Services</a>
+        </li>
+        <li>
+          <a href="#">Blog</a>
+        </li>
+        <li>
+          <a href="#">Contact Us</a>
+        </li>
+      </ul>
+    </div>
+    <ul class="cards">
+      <li>
+        <a href="{% url 'issue_create' %}" class="card" target="_blank">
+          <img src="https://clockify.me/blog/wp-content/uploads/2023/11/Agile-Project-Management.png" class="card__image" alt="" />
+          <div class="card__overlay">
+            <div class="card__header">
+              <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                     
+              <img class="card__thumb" src="{% static 'logo.jpg' %}" alt="" />
+              <div class="card__header-text">
+                <h3 class="card__title">Create Issue</h3>            
+                <!-- <span class="card__status">1 hour ago</span> -->
+              </div>
+            </div>
+            <p class="card__description">You can create your issues here</p>
+          </div>
+        </a>      
+      </li>
+      <li>
+        <a href="{% url 'issue_list' %}" class="card" target="_blank">
+          <img src="{% static 'list.jpg' %}" class="card__image" alt="" />
+          <div class="card__overlay">        
+            <div class="card__header">
+              <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                 
+              <img class="card__thumb" src="{% static 'logo.jpg' %}" alt="" />
+              <div class="card__header-text">
+                <h3 class="card__title">List of All Issues</h3>
+                <!-- <span class="card__status">3 hours ago</span> -->
+              </div>
+            </div>
+            <p class="card__description">You can find all the issues created here</p>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a href="{% url 'issue_dashboard'%}" class="card" target="_blank">
+          <img src="{%static 'analytics.jpg'%}" class="card__image" alt="" />
+          <div class="card__overlay">
+            <div class="card__header">
+              <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                 
+              <img class="card__thumb" src="{% static 'logo.jpg' %}" alt="" />
+              <div class="card__header-text">
+                <h3 class="card__title">Issue Analytics Dashboard</h3>
+                <!-- <span class="card__status">3 hours ago</span> -->
+              </div>          
+            </div>
+            <p class="card__description">Beautiful pie- charts to view the number of issues of a particular stage of each employee </p>
+          </div>
+        </a>
+      </li> 
+      <li>
+        <a href="{% url 'kanban_board' %}" class="card" target="_blank">
+          <img src="{% static 'board.jpg'%}" class="card__image" alt="" />
+          <div class="card__overlay">
+            <div class="card__header">
+              <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                     
+              <img class="card__thumb" src="{% static 'logo.jpg' %}" alt="" />
+              <div class="card__header-text">
+                <h3 class="card__title">Kanban Board</h3>
+                <!-- <span class="card__tagline">Lorem ipsum dolor sit amet consectetur</span>             -->
+                <!-- <span class="card__status">1 hour ago</span> -->
+              </div>
+            </div>
+            <p class="card__description">A visual project management tool that helps teams visualize and manage their work, and optimize efficiency</p>
+          </div>
+        </a>
+      </li>
+         
+    </ul>
+
+    <script src="{% static 'script.js' %}"></script>
+  </body>
+</html>

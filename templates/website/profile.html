@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Assigned Issues</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background-color: #D7BDCA;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      position: relative;
+    }
+    .card p {
+      margin: 10px 0;
+      font-size: 16px;
+      color: #333;
+    }
+    .card .status {
+      padding: 5px;
+      border-radius: 5px;
+      color: indianred;
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+    /* Define styles for different statuses */
+    .card .status.PendingImplementation { background-color: lightgrey; }
+    .card .status.InProgress { background-color: navy; }
+    .card .status.ReadyForUAT,
+    .card .status.ReadyToDeploy { background-color: lightgrey; }
+    .card .status.Done { background-color: green; }
+    .card button, .card a {
+      display: inline-block;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      text-decoration: none;
+      margin: 5px 0;
+    }
+    .card button {
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+      margin-right: 10px;
+      display: inline-block;
+      margin-right:10px;
+      transition: background-color 0.3s;
+    }
+    .card .logo {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      max-width: 50px; /* Adjust as needed */
+      max-height: 50px; /* Adjust as needed */
+    }
+    .heading-l {
+      text-align: center;
+      
+    }
+  </style>
+</head>
+<body>
+  <div class='heading-l'>
+    <h1>Your Assigned Issues</h1>
+  </div>
+  <div class="container">
+    {% for issue in issues %}
+    <div class="card">
+      <img src="{% static 'logo.jpg' %}" alt="Logo" class="logo">
+      <p><strong>Title:</strong> {{ issue.title }}</p>
+      <p><strong>Description:</strong> {{ issue.description }}</p>
+      <p><strong>Status:</strong> 
+        {% if issue.status == 'Pending Implementation' %}
+          <span class="status PendingImplementation">{{ issue.status }}</span>
+        {% elif issue.status == 'In Progress' %}
+          <span class="status InProgress">{{ issue.status }}</span>
+        {% elif issue.status == 'Ready for UAT' or issue.status == 'Ready to Deploy' %}
+          <span class="status ReadyForUAT">{{ issue.status }}</span>
+        {% elif issue.status == 'Done' %}
+          <span class="status Done">{{ issue.status }}</span>
+        {% endif %}
+      </p>
+      <p><strong>Created Date:</strong> {{ issue.created_at }}</p>
+      <p><strong>Last Updated:</strong> {{ issue.updated_at }}</p>
+      <p><strong>Date Resolved:</strong> {{ issue.closed_at }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</body>
+</html>
